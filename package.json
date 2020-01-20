@@ -40,7 +40,8 @@
   ],
   "license": "BSD-3-Clause",
   "main": "./dist/index.js",
-  "name": "eslint-plugin-sql",
+  "name": "@busbud/eslint-plugin-sql",
+  "private": true,
   "peerDependencies": {
     "eslint": ">=2.0.0"
   },
