@@ -17,6 +17,7 @@ export default (context) => {
   const ignoreInline = pluginOptions.ignoreInline !== false;
   const ignoreTagless = pluginOptions.ignoreTagless !== false;
   const ignoreStartWithNewLine = pluginOptions.ignoreStartWithNewLine !== false;
+  const matchIndentation = pluginOptions.matchIndentation !== false;
 
   return {
     TemplateLiteral (node) {
@@ -52,6 +53,33 @@ export default (context) => {
         formatted = '\n' + formatted;
       }
 
+      if (matchIndentation) {
+        let spaces = 0;
+        let parent = node.parent;
+
+        while (true) {
+          if (parent.type === 'VariableDeclaration') {
+            spaces = parent.loc.start.column + 2;
+            break;
+          }
+          parent = parent.parent;
+        }
+        if (spaces > 0) {
+          formatted = formatted.split('\n')
+          .map((line, idx, arr) => {
+            if (idx === 0 && line === '') {
+              return line;
+            }
+            if (idx + 1 === arr.length && line === '') {
+              return ' '.repeat(spaces - 2) + line;
+            }
+
+            return ' '.repeat(spaces) + line;
+          })
+          .join('\n');
+        }
+      }
+
       if (formatted !== literal) {
         context.report({
           fix: (fixer) => {
@@ -69,7 +97,7 @@ export default (context) => {
             return fixer.replaceTextRange([
               node.quasis[0].range[0],
               node.quasis[node.quasis.length - 1].range[1]
-            ], '`\n' + final + '`');
+            ], '`' + final + '`');
           },
           message: 'Format the query',
           node
