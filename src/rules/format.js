@@ -58,7 +58,7 @@ export default (context) => {
         let parent = node.parent;
 
         while (true) {
-          if (parent.type === 'VariableDeclaration') {
+          if (['ExpressionStatement', 'VariableDeclaration', 'ReturnStatement'].includes(parent.type)) {
             spaces = parent.loc.start.column + 2;
             break;
           }

@@ -41,7 +41,6 @@
   "license": "BSD-3-Clause",
   "main": "./dist/index.js",
   "name": "@busbud/eslint-plugin-sql",
-  "private": true,
   "peerDependencies": {
     "eslint": ">=2.0.0"
   },
@@ -57,5 +56,5 @@
     "precommit": "npm run lint && npm run test",
     "test": "mocha --compilers js:babel-register ./test/**/*.js"
   },
-  "version": "1.0.1"
+  "version": "1.2.1"
 }
