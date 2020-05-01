@@ -58,12 +58,17 @@ export default (context) => {
         let parent = node.parent;
 
         while (true) {
+          if (!parent) {
+            spaces = node.loc.start.column - 1;
+            break;
+          }
           if (['ExpressionStatement', 'VariableDeclaration', 'ReturnStatement'].includes(parent.type)) {
             spaces = parent.loc.start.column + 2;
             break;
           }
           parent = parent.parent;
         }
+
         if (spaces > 0) {
           formatted = formatted.split('\n')
           .map((line, idx, arr) => {
@@ -72,6 +77,9 @@ export default (context) => {
             }
             if (idx + 1 === arr.length && line === '') {
               return ' '.repeat(spaces - 2) + line;
+            }
+            if (line === '') {
+              return '';
             }
 
             return ' '.repeat(spaces) + line;
