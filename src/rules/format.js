@@ -97,7 +97,11 @@ export default (context) => {
             let index = 0;
 
             while (index <= expressionCount - 1) {
-              final = final.replace(magic, '${' + generate(node.expressions[index]) + '}');
+              try {
+                final = final.replace(magic, '${' + generate(node.expressions[index]) + '}');
+              } catch (error) {
+                // continue regardless of error
+              } 
 
               index++;
             }

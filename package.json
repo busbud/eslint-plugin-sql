@@ -56,5 +56,5 @@
     "precommit": "npm run lint && npm run test",
     "test": "mocha --compilers js:babel-register ./test/**/*.js"
   },
-  "version": "1.2.2"
+  "version": "1.2.3"
 }
